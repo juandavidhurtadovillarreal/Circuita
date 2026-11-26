@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#273e9a">
+  <meta name="description" content="Aprende circuitos sencillos armando y probando uno en el navegador.">
+  <title>Circuita — Taller de circuitos</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Circuita, inicio">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 9h10v9h9v-6h6v16h-8v-6h-8v9H8z"/><circle cx="11" cy="12" r="2"/><circle cx="30" cy="28" r="2"/></svg>
+      <span>Circuita</span>
+    </a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a class="nav-active" href="#taller" aria-current="page">Mi taller</a>
+      <a href="#hintBox">Ayuda</a>
+    </nav>
+    <div class="top-progress" aria-label="Progreso de la práctica">
+      <span class="progress-copy">PRÁCTICA <strong id="progressText">0 de 4</strong></span>
+      <span class="progress-track"><span id="progressFill"></span></span>
+    </div>
+  </header>
+
+  <main id="inicio" class="app-grid">
+    <aside class="lesson-panel" id="taller" aria-labelledby="lessonTitle">
+      <div class="lesson-topline"><span class="sheet-label">RETO DE MONTAJE</span><span class="time-label">4 pasos</span></div>
+      <h1 id="lessonTitle">Enciende un LED</h1>
+      <p class="lesson-intro">Arma el camino desde D13 hasta tierra. La resistencia cuida tu LED.</p>
+
+      <ol class="lesson-steps" id="lessonSteps">
+        <li data-step="0"><span class="step-number">1</span><span><strong>Conecta la salida</strong><small>Lleva D13 a la fila 5.</small></span><span class="step-state" aria-hidden="true"></span></li>
+        <li data-step="1"><span class="step-number">2</span><span><strong>Añade resistencia</strong><small>Une las filas 5 y 8 con 220 Ω.</small></span><span class="step-state" aria-hidden="true"></span></li>
+        <li data-step="2"><span class="step-number">3</span><span><strong>Orienta el LED</strong><small>Pata larga en la fila 8.</small></span><span class="step-state" aria-hidden="true"></span></li>
+        <li data-step="3"><span class="step-number">4</span><span><strong>Cierra el camino</strong><small>Une la fila 10 con GND.</small></span><span class="step-state" aria-hidden="true"></span></li>
+      </ol>
+
+      <div class="lesson-hint" id="hintBox" aria-label="Ayuda de la práctica">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a7 7 0 0 0-4.2 12.6c.8.6 1.2 1.3 1.2 2.2h6c0-.9.4-1.6 1.2-2.2A7 7 0 0 0 12 3Z"/><path d="M9.5 21h5M10 18h4"/></svg>
+        <div><strong>Una pista</strong><p id="hintText">La pata larga del LED va del lado de la resistencia.</p></div>
+        <button id="hintButton" class="text-button" type="button" aria-expanded="true">Ocultar</button>
+      </div>
+    </aside>
+
+    <section class="simulator" id="circuito" aria-labelledby="workspaceTitle">
+      <div class="workspace-heading">
+        <div><h2 id="workspaceTitle">Banco de montaje</h2></div>
+        <div class="workspace-actions">
+          <button class="run-button" id="runButton" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg>Probar circuito</button>
+          <button class="quiet-button" id="centerButton" type="button" title="Volver al centro de la mesa">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5M9 4 4 9m11-5 5 5M4 15l5 5m11-5-5 5"/></svg>
+            Centrar mesa
+          </button>
+        </div>
+      </div>
+
+      <section class="step-guide" aria-live="polite" aria-atomic="true" aria-labelledby="stepTitle">
+        <span class="step-token" id="stepMarker">PASO 1 DE 4</span>
+        <div><h3 id="stepTitle">Conecta la salida</h3><p id="stepInstruction">El jumper rojo ya está elegido. Toca D13 y luego la fila 5.</p></div>
+        <span class="step-hint" id="stepHint">Busca los dos puntos iluminados</span>
+      </section>
+
+      <div class="board-scroll" tabindex="0" aria-label="Mesa de montaje desplazable">
+        <div class="board-stage" id="boardStage">
+          <svg class="wire-layer" id="wireLayer" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <section class="arduino-board" aria-label="Placa Arduino Uno">
+            <!-- Hardware Details & Mounting Holes -->
+            <span class="mount-hole mount-tl" aria-hidden="true"></span>
+            <span class="mount-hole mount-tr" aria-hidden="true"></span>
+            <span class="mount-hole mount-bl" aria-hidden="true"></span>
+            <span class="mount-hole mount-br" aria-hidden="true"></span>
+
+            <!-- USB Port (Type B metal housing) -->
+            <div class="usb-assembly" aria-label="Puerto USB">
+              <div class="usb-metal">
+                <span class="usb-opening"></span>
+              </div>
+              <span class="usb-label">USB</span>
+            </div>
+
+            <!-- DC Power Barrel Jack -->
+            <div class="power-jack-assembly" aria-hidden="true">
+              <div class="power-jack-barrel">
+                <span class="power-jack-pin"></span>
+              </div>
+            </div>
+
+            <!-- Tactile Reset Button -->
+            <div class="reset-button-assembly" aria-hidden="true">
+              <span class="reset-button-cap"></span>
+              <span class="reset-button-label">RESET</span>
+            </div>
+
+            <!-- Crystal Oscillator and Voltage Regulator -->
+            <div class="crystal-oscillator" aria-hidden="true"><span>16.000</span></div>
+            <div class="voltage-regulator" aria-hidden="true"></div>
+
+            <!-- Central ATmega328P DIP IC -->
+            <div class="atmega-ic" aria-hidden="true">
+              <div class="ic-notch"></div>
+              <span class="ic-label">ATMEGA328P-PU</span>
+              <div class="ic-pins-left"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="ic-pins-right"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+
+            <!-- Arduino Official Silkscreen & Logo -->
+            <div class="arduino-silkscreen" aria-hidden="true">
+              <div class="arduino-logo-badge">
+                <svg viewBox="0 0 32 18"><path d="M9 2a7 7 0 0 0-7 7 7 7 0 0 0 7 7c3.2 0 5-2.2 7-7-2-4.8-3.8-7-7-7zm14 0c-3.2 0-5 2.2-7 7 2 4.8 3.8 7 7 7a7 7 0 0 0 7-7 7 7 0 0 0-7-7zm-14 6h2v2H9v2H7v-2H5V8h2V6h2v2zm12 1h4v2h-4V9z"/></svg>
+                <span>ARDUINO</span>
+              </div>
+              <div class="arduino-model-badge">UNO</div>
+            </div>
+
+            <!-- Status LEDs: ON, L, TX, RX -->
+            <div class="status-led-group" aria-label="Indicadores LED de la placa">
+              <div class="status-led-item"><span class="board-indicator led-on is-active" title="Alimentación ON"></span><span class="led-tag">ON</span></div>
+              <div class="status-led-item"><span class="board-indicator led-l" id="boardLed" title="LED del Pin 13 (L)"></span><span class="led-tag">L</span></div>
+              <div class="status-led-item"><span class="board-indicator led-tx" title="Transmisión TX"></span><span class="led-tag">TX</span></div>
+              <div class="status-led-item"><span class="board-indicator led-rx" title="Recepción RX"></span><span class="led-tag">RX</span></div>
+            </div>
+
+            <!-- Digital Pin Header (Top) -->
+            <div class="arduino-header-group header-digital">
+              <div class="header-label-bar"><span class="bank-title">DIGITAL (PWM ~)</span></div>
+              <div class="header-strip strip-digital">
+                <button type="button" class="arduino-pin-socket" data-pin="SCL" aria-label="Pin SCL"><span class="pin-hole"></span><span class="pin-text">SCL</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="SDA" aria-label="Pin SDA"><span class="pin-hole"></span><span class="pin-text">SDA</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="AREF" aria-label="Pin AREF"><span class="pin-hole"></span><span class="pin-text">AREF</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="GND_TOP" data-node-alias="GND" aria-label="Pin GND Digital"><span class="pin-hole"></span><span class="pin-text">GND</span></button>
+                <span class="header-split"></span>
+                <button type="button" class="arduino-pin-socket pin-target-d13" data-pin="13" data-node="D13" aria-label="Pin 13 Digital">
+                  <span class="pin-hole"></span>
+                  <span class="pin-text">13</span>
+                  <div class="pin-beacon" id="beaconD13" aria-hidden="true">
+                    <span class="beacon-pulse"></span>
+                    <span class="beacon-tag">D13</span>
+                  </div>
+                </button>
+                <button type="button" class="arduino-pin-socket" data-pin="12" aria-label="Pin 12"><span class="pin-hole"></span><span class="pin-text">12</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="11" aria-label="Pin ~11 PWM"><span class="pin-hole"></span><span class="pin-text">~11</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="10" aria-label="Pin ~10 PWM"><span class="pin-hole"></span><span class="pin-text">~10</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="9" aria-label="Pin ~9 PWM"><span class="pin-hole"></span><span class="pin-text">~9</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="8" aria-label="Pin 8"><span class="pin-hole"></span><span class="pin-text">8</span></button>
+                <span class="header-gap"></span>
+                <button type="button" class="arduino-pin-socket" data-pin="7" aria-label="Pin 7"><span class="pin-hole"></span><span class="pin-text">7</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="6" aria-label="Pin ~6 PWM"><span class="pin-hole"></span><span class="pin-text">~6</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="5" aria-label="Pin ~5 PWM"><span class="pin-hole"></span><span class="pin-text">~5</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="4" aria-label="Pin 4"><span class="pin-hole"></span><span class="pin-text">4</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="3" aria-label="Pin ~3 PWM"><span class="pin-hole"></span><span class="pin-text">~3</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="2" aria-label="Pin 2"><span class="pin-hole"></span><span class="pin-text">2</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="1" aria-label="Pin 1 TX"><span class="pin-hole"></span><span class="pin-text">1</span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="0" aria-label="Pin 0 RX"><span class="pin-hole"></span><span class="pin-text">0</span></button>
+              </div>
+            </div>
+
+            <!-- Power and Analog Pin Header (Bottom) -->
+            <div class="arduino-header-group header-power-analog">
+              <div class="header-label-bar"><span class="bank-title">POWER</span><span class="bank-title analog-title">ANALOG IN</span></div>
+              <div class="header-strip strip-power-analog">
+                <button type="button" class="arduino-pin-socket" data-pin="IOREF" aria-label="Pin IOREF"><span class="pin-text">IOREF</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="RESET" aria-label="Pin RESET"><span class="pin-text">RESET</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="3.3V" aria-label="Pin 3.3V"><span class="pin-text">3.3V</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="5V" aria-label="Pin 5V (Alimentación)"><span class="pin-text">5V</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket pin-target-gnd" data-pin="GND" data-node="GND" aria-label="Pin GND Tierra">
+                  <div class="pin-beacon" id="beaconGND" aria-hidden="true">
+                    <span class="beacon-pulse"></span>
+                    <span class="beacon-tag">GND ⏚</span>
+                  </div>
+                  <span class="pin-text">GND</span>
+                  <span class="pin-hole"></span>
+                </button>
+                <button type="button" class="arduino-pin-socket" data-pin="GND_2" data-node-alias="GND" aria-label="Pin GND Tierra 2"><span class="pin-text">GND</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="VIN" aria-label="Pin VIN"><span class="pin-text">VIN</span><span class="pin-hole"></span></button>
+                <span class="header-gap"></span>
+                <button type="button" class="arduino-pin-socket" data-pin="A0" aria-label="Pin A0 Analógico"><span class="pin-text">A0</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="A1" aria-label="Pin A1 Analógico"><span class="pin-text">A1</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="A2" aria-label="Pin A2 Analógico"><span class="pin-text">A2</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="A3" aria-label="Pin A3 Analógico"><span class="pin-text">A3</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="A4" aria-label="Pin A4 Analógico"><span class="pin-text">A4</span><span class="pin-hole"></span></button>
+                <button type="button" class="arduino-pin-socket" data-pin="A5" aria-label="Pin A5 Analógico"><span class="pin-text">A5</span><span class="pin-hole"></span></button>
+              </div>
+            </div>
+          </section>
+
+          <section class="breadboard" aria-label="Protoboard Tinkercad">
+            <!-- Interlocking Tabs / Clamps (Tinkercad modular style) -->
+            <div class="bb-tabs bb-tabs-left" aria-hidden="true"><span></span><span></span></div>
+            <div class="bb-tabs bb-tabs-right" aria-hidden="true"><span></span><span></span></div>
+
+            <!-- Header Branding -->
+            <div class="breadboard-brand">
+              <span class="bb-brand-title">PROTOBOARD</span>
+              <span class="bb-brand-subtitle">5 orificios interconectados por columna (a–e / f–j)</span>
+            </div>
+
+            <!-- Upper Power Rails (+ and -) -->
+            <div class="bb-power-bus power-bus-top" aria-label="Rieles de alimentación superiores">
+              <div class="bb-bus-line bus-positive" data-rail="top-pos">
+                <div class="bb-bus-indicator">
+                  <span class="bb-bus-sign red-sign">+</span>
+                  <span class="bb-bus-stripe red-stripe"></span>
+                  <span class="bb-bus-sign red-sign">+</span>
+                </div>
+                <div class="bb-bus-holes">
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-1" aria-label="Riel superior positivo 1"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-2" aria-label="Riel superior positivo 2"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-3" aria-label="Riel superior positivo 3"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-4" aria-label="Riel superior positivo 4"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-5" aria-label="Riel superior positivo 5"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-6" aria-label="Riel superior positivo 6"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-7" aria-label="Riel superior positivo 7"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-8" aria-label="Riel superior positivo 8"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-9" aria-label="Riel superior positivo 9"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-10" aria-label="Riel superior positivo 10"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-11" aria-label="Riel superior positivo 11"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-12" aria-label="Riel superior positivo 12"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-13" aria-label="Riel superior positivo 13"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-14" aria-label="Riel superior positivo 14"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-15" aria-label="Riel superior positivo 15"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-16" aria-label="Riel superior positivo 16"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-17" aria-label="Riel superior positivo 17"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-18" aria-label="Riel superior positivo 18"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-19" aria-label="Riel superior positivo 19"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-20" aria-label="Riel superior positivo 20"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-21" aria-label="Riel superior positivo 21"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-22" aria-label="Riel superior positivo 22"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-23" aria-label="Riel superior positivo 23"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-24" aria-label="Riel superior positivo 24"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-pos" data-rail-hole="top-pos-25" aria-label="Riel superior positivo 25"><span class="bb-socket"></span></button>
+                  </div>
+                </div>
+              </div>
+              <div class="bb-bus-line bus-negative" data-rail="top-neg">
+                <div class="bb-bus-holes">
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-1" aria-label="Riel superior negativo 1"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-2" aria-label="Riel superior negativo 2"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-3" aria-label="Riel superior negativo 3"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-4" aria-label="Riel superior negativo 4"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-5" aria-label="Riel superior negativo 5"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-6" aria-label="Riel superior negativo 6"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-7" aria-label="Riel superior negativo 7"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-8" aria-label="Riel superior negativo 8"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-9" aria-label="Riel superior negativo 9"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-10" aria-label="Riel superior negativo 10"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-11" aria-label="Riel superior negativo 11"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-12" aria-label="Riel superior negativo 12"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-13" aria-label="Riel superior negativo 13"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-14" aria-label="Riel superior negativo 14"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-15" aria-label="Riel superior negativo 15"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-16" aria-label="Riel superior negativo 16"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-17" aria-label="Riel superior negativo 17"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-18" aria-label="Riel superior negativo 18"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-19" aria-label="Riel superior negativo 19"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-20" aria-label="Riel superior negativo 20"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-21" aria-label="Riel superior negativo 21"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-22" aria-label="Riel superior negativo 22"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-23" aria-label="Riel superior negativo 23"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-24" aria-label="Riel superior negativo 24"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="top-neg" data-rail-hole="top-neg-25" aria-label="Riel superior negativo 25"><span class="bb-socket"></span></button>
+                  </div>
+                </div>
+                <div class="bb-bus-indicator">
+                  <span class="bb-bus-sign blue-sign">−</span>
+                  <span class="bb-bus-stripe blue-stripe"></span>
+                  <span class="bb-bus-sign blue-sign">−</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top Column Headings (a b c d e | canal | f g h i j) -->
+            <div class="bb-col-labels" aria-hidden="true">
+              <span class="row-spacer"></span>
+              <span class="col-head">a</span><span class="col-head">b</span><span class="col-head">c</span><span class="col-head">d</span><span class="col-head">e</span>
+              <span class="trough-spacer"></span>
+              <span class="col-head">f</span><span class="col-head">g</span><span class="col-head">h</span><span class="col-head">i</span><span class="col-head">j</span>
+              <span class="row-spacer"></span>
+            </div>
+
+            <!-- Main Terminal Grid: Rows 1 to 14 -->
+            <div class="bb-terminal-grid" id="bbTerminalGrid">
+              <!-- Row 1 -->
+              <div class="bb-row" data-row="1"><span class="bb-row-num">1</span><div class="bb-hole-group" data-row="1" data-group="left"><button type="button" class="bb-hole" data-hole="1-a" data-row="1" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-b" data-row="1" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-c" data-row="1" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-d" data-row="1" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-e" data-row="1" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="1" data-group="right"><button type="button" class="bb-hole" data-hole="1-f" data-row="1" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-g" data-row="1" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-h" data-row="1" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-i" data-row="1" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="1-j" data-row="1" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">1</span></div>
+              <!-- Row 2 -->
+              <div class="bb-row" data-row="2"><span class="bb-row-num">2</span><div class="bb-hole-group" data-row="2" data-group="left"><button type="button" class="bb-hole" data-hole="2-a" data-row="2" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-b" data-row="2" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-c" data-row="2" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-d" data-row="2" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-e" data-row="2" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="2" data-group="right"><button type="button" class="bb-hole" data-hole="2-f" data-row="2" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-g" data-row="2" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-h" data-row="2" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-i" data-row="2" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="2-j" data-row="2" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">2</span></div>
+              <!-- Row 3 -->
+              <div class="bb-row" data-row="3"><span class="bb-row-num">3</span><div class="bb-hole-group" data-row="3" data-group="left"><button type="button" class="bb-hole" data-hole="3-a" data-row="3" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-b" data-row="3" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-c" data-row="3" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-d" data-row="3" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-e" data-row="3" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="3" data-group="right"><button type="button" class="bb-hole" data-hole="3-f" data-row="3" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-g" data-row="3" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-h" data-row="3" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-i" data-row="3" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="3-j" data-row="3" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">3</span></div>
+              <!-- Row 4 -->
+              <div class="bb-row" data-row="4"><span class="bb-row-num">4</span><div class="bb-hole-group" data-row="4" data-group="left"><button type="button" class="bb-hole" data-hole="4-a" data-row="4" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-b" data-row="4" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-c" data-row="4" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-d" data-row="4" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-e" data-row="4" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="4" data-group="right"><button type="button" class="bb-hole" data-hole="4-f" data-row="4" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-g" data-row="4" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-h" data-row="4" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-i" data-row="4" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="4-j" data-row="4" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">4</span></div>
+              <!-- Row 5 (Target Row) -->
+              <div class="bb-row target-row" data-row="5">
+                <span class="bb-row-num is-target-num">5</span>
+                <div class="row-beacon" id="beaconR5" aria-hidden="true"><span class="beacon-pulse"></span><span class="beacon-tag">Fila 5</span></div>
+                <div class="bb-hole-group target-group" data-row="5" data-group="left">
+                  <button type="button" class="bb-hole" data-hole="5-a" data-row="5" data-col="a"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-b" data-node="r5" data-row="5" data-col="b"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-c" data-row="5" data-col="c"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-d" data-row="5" data-col="d"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-e" data-row="5" data-col="e"><span class="bb-socket"></span></button>
+                </div>
+                <div class="bb-center-trough"></div>
+                <div class="bb-hole-group" data-row="5" data-group="right">
+                  <button type="button" class="bb-hole" data-hole="5-f" data-row="5" data-col="f"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-g" data-row="5" data-col="g"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-h" data-row="5" data-col="h"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-i" data-row="5" data-col="i"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="5-j" data-row="5" data-col="j"><span class="bb-socket"></span></button>
+                </div>
+                <span class="bb-row-num is-target-num">5</span>
+              </div>
+              <!-- Row 6 -->
+              <div class="bb-row" data-row="6"><span class="bb-row-num">6</span><div class="bb-hole-group" data-row="6" data-group="left"><button type="button" class="bb-hole" data-hole="6-a" data-row="6" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-b" data-row="6" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-c" data-row="6" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-d" data-row="6" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-e" data-row="6" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="6" data-group="right"><button type="button" class="bb-hole" data-hole="6-f" data-row="6" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-g" data-row="6" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-h" data-row="6" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-i" data-row="6" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="6-j" data-row="6" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">6</span></div>
+              <!-- Row 7 -->
+              <div class="bb-row" data-row="7"><span class="bb-row-num">7</span><div class="bb-hole-group" data-row="7" data-group="left"><button type="button" class="bb-hole" data-hole="7-a" data-row="7" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-b" data-row="7" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-c" data-row="7" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-d" data-row="7" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-e" data-row="7" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="7" data-group="right"><button type="button" class="bb-hole" data-hole="7-f" data-row="7" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-g" data-row="7" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-h" data-row="7" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-i" data-row="7" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="7-j" data-row="7" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">7</span></div>
+              <!-- Row 8 (Target Row) -->
+              <div class="bb-row target-row" data-row="8">
+                <span class="bb-row-num is-target-num">8</span>
+                <div class="row-beacon" id="beaconR8" aria-hidden="true"><span class="beacon-pulse"></span><span class="beacon-tag">Fila 8</span></div>
+                <div class="bb-hole-group target-group" data-row="8" data-group="left">
+                  <button type="button" class="bb-hole" data-hole="8-a" data-row="8" data-col="a"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-b" data-node="r8" data-row="8" data-col="b"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-c" data-row="8" data-col="c"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-d" data-row="8" data-col="d"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-e" data-row="8" data-col="e"><span class="bb-socket"></span></button>
+                </div>
+                <div class="bb-center-trough"></div>
+                <div class="bb-hole-group" data-row="8" data-group="right">
+                  <button type="button" class="bb-hole" data-hole="8-f" data-row="8" data-col="f"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-g" data-row="8" data-col="g"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-h" data-row="8" data-col="h"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-i" data-row="8" data-col="i"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="8-j" data-row="8" data-col="j"><span class="bb-socket"></span></button>
+                </div>
+                <span class="bb-row-num is-target-num">8</span>
+              </div>
+              <!-- Row 9 -->
+              <div class="bb-row" data-row="9"><span class="bb-row-num">9</span><div class="bb-hole-group" data-row="9" data-group="left"><button type="button" class="bb-hole" data-hole="9-a" data-row="9" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-b" data-row="9" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-c" data-row="9" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-d" data-row="9" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-e" data-row="9" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="9" data-group="right"><button type="button" class="bb-hole" data-hole="9-f" data-row="9" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-g" data-row="9" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-h" data-row="9" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-i" data-row="9" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="9-j" data-row="9" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">9</span></div>
+              <!-- Row 10 (Target Row) -->
+              <div class="bb-row target-row" data-row="10">
+                <span class="bb-row-num is-target-num">10</span>
+                <div class="row-beacon" id="beaconR10" aria-hidden="true"><span class="beacon-pulse"></span><span class="beacon-tag">Fila 10</span></div>
+                <div class="bb-hole-group target-group" data-row="10" data-group="left">
+                  <button type="button" class="bb-hole" data-hole="10-a" data-row="10" data-col="a"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-b" data-node="r10" data-row="10" data-col="b"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-c" data-row="10" data-col="c"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-d" data-row="10" data-col="d"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-e" data-row="10" data-col="e"><span class="bb-socket"></span></button>
+                </div>
+                <div class="bb-center-trough"></div>
+                <div class="bb-hole-group" data-row="10" data-group="right">
+                  <button type="button" class="bb-hole" data-hole="10-f" data-row="10" data-col="f"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-g" data-row="10" data-col="g"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-h" data-row="10" data-col="h"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-i" data-row="10" data-col="i"><span class="bb-socket"></span></button>
+                  <button type="button" class="bb-hole" data-hole="10-j" data-row="10" data-col="j"><span class="bb-socket"></span></button>
+                </div>
+                <span class="bb-row-num is-target-num">10</span>
+              </div>
+              <!-- Row 11 -->
+              <div class="bb-row" data-row="11"><span class="bb-row-num">11</span><div class="bb-hole-group" data-row="11" data-group="left"><button type="button" class="bb-hole" data-hole="11-a" data-row="11" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-b" data-row="11" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-c" data-row="11" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-d" data-row="11" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-e" data-row="11" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="11" data-group="right"><button type="button" class="bb-hole" data-hole="11-f" data-row="11" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-g" data-row="11" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-h" data-row="11" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-i" data-row="11" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="11-j" data-row="11" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">11</span></div>
+              <!-- Row 12 -->
+              <div class="bb-row" data-row="12"><span class="bb-row-num">12</span><div class="bb-hole-group" data-row="12" data-group="left"><button type="button" class="bb-hole" data-hole="12-a" data-row="12" data-col="a"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-b" data-row="12" data-col="b"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-c" data-row="12" data-col="c"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-d" data-row="12" data-col="d"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-e" data-row="12" data-col="e"><span class="bb-socket"></span></button></div><div class="bb-center-trough"></div><div class="bb-hole-group" data-row="12" data-group="right"><button type="button" class="bb-hole" data-hole="12-f" data-row="12" data-col="f"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-g" data-row="12" data-col="g"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-h" data-row="12" data-col="h"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-i" data-row="12" data-col="i"><span class="bb-socket"></span></button><button type="button" class="bb-hole" data-hole="12-j" data-row="12" data-col="j"><span class="bb-socket"></span></button></div><span class="bb-row-num">12</span></div>
+            </div>
+
+            <!-- Bottom Column Headings -->
+            <div class="bb-col-labels" aria-hidden="true">
+              <span class="row-spacer"></span>
+              <span class="col-head">a</span><span class="col-head">b</span><span class="col-head">c</span><span class="col-head">d</span><span class="col-head">e</span>
+              <span class="trough-spacer"></span>
+              <span class="col-head">f</span><span class="col-head">g</span><span class="col-head">h</span><span class="col-head">i</span><span class="col-head">j</span>
+              <span class="row-spacer"></span>
+            </div>
+
+            <!-- Lower Power Rails (+ and -) -->
+            <div class="bb-power-bus power-bus-bottom" aria-label="Rieles de alimentación inferiores">
+              <div class="bb-bus-line bus-positive" data-rail="bot-pos">
+                <div class="bb-bus-indicator">
+                  <span class="bb-bus-sign red-sign">+</span>
+                  <span class="bb-bus-stripe red-stripe"></span>
+                  <span class="bb-bus-sign red-sign">+</span>
+                </div>
+                <div class="bb-bus-holes">
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-1" aria-label="Riel inferior positivo 1"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-2" aria-label="Riel inferior positivo 2"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-3" aria-label="Riel inferior positivo 3"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-4" aria-label="Riel inferior positivo 4"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-5" aria-label="Riel inferior positivo 5"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-6" aria-label="Riel inferior positivo 6"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-7" aria-label="Riel inferior positivo 7"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-8" aria-label="Riel inferior positivo 8"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-9" aria-label="Riel inferior positivo 9"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-10" aria-label="Riel inferior positivo 10"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-11" aria-label="Riel inferior positivo 11"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-12" aria-label="Riel inferior positivo 12"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-13" aria-label="Riel inferior positivo 13"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-14" aria-label="Riel inferior positivo 14"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-15" aria-label="Riel inferior positivo 15"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-16" aria-label="Riel inferior positivo 16"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-17" aria-label="Riel inferior positivo 17"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-18" aria-label="Riel inferior positivo 18"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-19" aria-label="Riel inferior positivo 19"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-20" aria-label="Riel inferior positivo 20"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-21" aria-label="Riel inferior positivo 21"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-22" aria-label="Riel inferior positivo 22"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-23" aria-label="Riel inferior positivo 23"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-24" aria-label="Riel inferior positivo 24"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-pos" data-rail-hole="bot-pos-25" aria-label="Riel inferior positivo 25"><span class="bb-socket"></span></button>
+                  </div>
+                </div>
+              </div>
+              <div class="bb-bus-line bus-negative" data-rail="bot-neg">
+                <div class="bb-bus-holes">
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-1" aria-label="Riel inferior negativo 1"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-2" aria-label="Riel inferior negativo 2"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-3" aria-label="Riel inferior negativo 3"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-4" aria-label="Riel inferior negativo 4"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-5" aria-label="Riel inferior negativo 5"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-6" aria-label="Riel inferior negativo 6"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-7" aria-label="Riel inferior negativo 7"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-8" aria-label="Riel inferior negativo 8"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-9" aria-label="Riel inferior negativo 9"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-10" aria-label="Riel inferior negativo 10"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-11" aria-label="Riel inferior negativo 11"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-12" aria-label="Riel inferior negativo 12"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-13" aria-label="Riel inferior negativo 13"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-14" aria-label="Riel inferior negativo 14"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-15" aria-label="Riel inferior negativo 15"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-16" aria-label="Riel inferior negativo 16"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-17" aria-label="Riel inferior negativo 17"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-18" aria-label="Riel inferior negativo 18"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-19" aria-label="Riel inferior negativo 19"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-20" aria-label="Riel inferior negativo 20"><span class="bb-socket"></span></button>
+                  </div>
+                  <div class="bb-bus-group">
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-21" aria-label="Riel inferior negativo 21"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-22" aria-label="Riel inferior negativo 22"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-23" aria-label="Riel inferior negativo 23"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-24" aria-label="Riel inferior negativo 24"><span class="bb-socket"></span></button>
+                    <button type="button" class="bb-hole rail-hole" data-rail="bot-neg" data-rail-hole="bot-neg-25" aria-label="Riel inferior negativo 25"><span class="bb-socket"></span></button>
+                  </div>
+                </div>
+                <div class="bb-bus-indicator">
+                  <span class="bb-bus-sign blue-sign">−</span>
+                  <span class="bb-bus-stripe blue-stripe"></span>
+                  <span class="bb-bus-sign blue-sign">−</span>
+                </div>
+              </div>
+            </div>
+          </section>
+          <span class="stage-stamp">MESA DE PRUEBA · 01</span>
+        </div>
+        <div class="camera-pill" id="cameraPill" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm11 2-5-5v3h-3v4h3v3l5-5zm-7 3h-4v3H6l5 5 5-5h-3v-3z"/></svg>
+          <span>Haz clic sostenido y arrastra la mesa para mover la cámara</span>
+        </div>
+      </div>
+
+      <div class="live-message" id="liveMessage" role="status" aria-live="polite"></div>
+      <div class="connection-footer">
+        <div class="connection-title"><strong>Conexiones</strong><span id="connectionCount">0 piezas colocadas</span></div>
+        <div id="connectionList" class="connection-list" aria-live="polite"><span class="empty-connections">Aún no hay conexiones. Elige una pieza y toca sus dos extremos.</span></div>
+      </div>
+    </section>
+
+    <aside class="control-panel" aria-label="Piezas y programa">
+      <section class="parts-section">
+        <div class="section-rule"><span class="part-count">4 piezas disponibles</span></div>
+        <h2>Piezas</h2>
+        <p class="panel-copy">La pieza del paso actual ya está elegida. Toca otra si quieres explorar.</p>
+        <div class="parts-list" role="group" aria-label="Piezas del circuito">
+          <button class="part-item selected" type="button" data-tool="red-wire" aria-pressed="true">
+            <svg class="part-visual jumper-visual" viewBox="0 0 72 52" aria-hidden="true"><path d="M12 42V31c0-12 8-20 20-20h8c11 0 18 7 18 18v9" fill="none" stroke="#bb3b32" stroke-width="9" stroke-linecap="round"/><path d="M12 39V31c0-10 7-17 18-17h10c9 0 15 6 15 15v8" fill="none" stroke="#f1826e" stroke-width="2" stroke-linecap="round"/><path d="M12 39v9m46-9v9" stroke="#9da5b1" stroke-width="3"/><rect x="7" y="44" width="10" height="5" rx="2" fill="#c4ccd4"/><rect x="53" y="44" width="10" height="5" rx="2" fill="#c4ccd4"/></svg>
+            <span class="part-copy"><strong>Jumper rojo</strong><small>Lleva la señal desde D13</small></span><span class="part-status" data-part-status="red-wire">Elegido</span>
+          </button>
+          <button class="part-item" type="button" data-tool="resistor" aria-pressed="false">
+            <svg class="part-visual resistor-visual" viewBox="0 0 72 52" aria-hidden="true"><path d="M3 27h17m32 0h17" stroke="#a8afb9" stroke-width="3"/><rect x="18" y="18" width="36" height="18" rx="8" fill="#d7bb86" stroke="#98744c" stroke-width="2"/><path d="M25 19v16m7-17v18m9-18v18m7-16v14" stroke-width="4" stroke-linecap="round"/><path d="M25 19v16" stroke="#75412f"/><path d="M32 18v18" stroke="#d36a40"/><path d="M41 18v18" stroke="#6e3f36"/><path d="M48 20v14" stroke="#dfb33f"/></svg>
+            <span class="part-copy"><strong>Resistencia</strong><small>220 Ω · cuida el LED</small></span><span class="part-status" data-part-status="resistor">Disponible</span>
+          </button>
+          <button class="part-item" type="button" data-tool="led" aria-pressed="false">
+            <svg class="part-visual led-visual" viewBox="0 0 72 52" aria-hidden="true"><path d="M29 29 25 48m18-19 5 19" stroke="#9da5b1" stroke-width="3" stroke-linecap="round"/><path d="M27 25a9 9 0 1 1 18 0c0 5-4 8-6 10h-6c-2-2-6-5-6-10Z" fill="#d94239" stroke="#8f2c2b" stroke-width="2"/><path d="M32 19c2-4 6-5 9-3" fill="none" stroke="#ffb2a4" stroke-width="2.5" stroke-linecap="round"/><path d="M30 28 28 46m15-18 4 18" stroke="#aeb8c3" stroke-width="1"/></svg>
+            <span class="part-copy"><strong>LED rojo</strong><small>Pata larga = lado positivo</small></span><span class="part-status" data-part-status="led">Disponible</span>
+          </button>
+          <button class="part-item" type="button" data-tool="black-wire" aria-pressed="false">
+            <svg class="part-visual jumper-visual" viewBox="0 0 72 52" aria-hidden="true"><path d="M12 42V31c0-12 8-20 20-20h8c11 0 18 7 18 18v9" fill="none" stroke="#202a3a" stroke-width="9" stroke-linecap="round"/><path d="M12 39V31c0-10 7-17 18-17h10c9 0 15 6 15 15v8" fill="none" stroke="#7f8da0" stroke-width="2" stroke-linecap="round"/><path d="M12 39v9m46-9v9" stroke="#9da5b1" stroke-width="3"/><rect x="7" y="44" width="10" height="5" rx="2" fill="#c4ccd4"/><rect x="53" y="44" width="10" height="5" rx="2" fill="#c4ccd4"/></svg>
+            <span class="part-copy"><strong>Jumper negro</strong><small>Regresa por tierra (GND)</small></span><span class="part-status" data-part-status="black-wire">Disponible</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="code-section" aria-labelledby="codeTitle">
+        <div class="section-rule"><button id="explainButton" class="text-button" type="button" aria-expanded="false">¿Qué significa?</button></div>
+        <h2 id="codeTitle">La señal</h2>
+        <div class="code-window" aria-label="Fragmento de programa Arduino">
+          <div class="code-line"><span class="line-no">1</span><code>pinMode(13, OUTPUT);</code></div>
+          <div class="code-line code-active"><span class="line-no">2</span><code>digitalWrite(13, <button id="levelButton" type="button" aria-label="Cambiar nivel del pin 13, ahora HIGH">HIGH</button>);</code></div>
+        </div>
+        <p id="codeExplanation" class="code-explanation" hidden>OUTPUT prepara D13 para enviar una señal. HIGH la enciende; LOW la apaga.</p>
+        <div class="code-controls">
+          <button class="reset-button" id="resetButton" type="button">Reiniciar</button>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+</body>
+</html>
